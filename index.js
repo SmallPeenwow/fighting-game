@@ -27,6 +27,7 @@ class Sprite {
 		};
 		this.color = color;
 		this.isAttacking;
+		this.health = 100;
 	}
 
 	draw() {
@@ -130,12 +131,18 @@ function animate() {
 
 	if (rectangularCollision({ rectangleOne: player, rectangleTwo: enemy }) && player.isAttacking) {
 		player.isAttacking = false;
-		console.log('player one attack');
+
+		// Health bar decreases
+		enemy.health -= 5;
+		document.querySelector('#enemy-health-decrease-bar').style.width = enemy.health + '%';
 	}
 
 	if (rectangularCollision({ rectangleOne: enemy, rectangleTwo: player }) && enemy.isAttacking) {
 		enemy.isAttacking = false;
-		console.log('player two attack');
+
+		// Health bar decreases
+		player.health -= 5;
+		document.querySelector('#player-health-decrease-bar').style.width = player.health + '%';
 	}
 }
 
@@ -152,11 +159,12 @@ window.addEventListener('keydown', (event) => {
 			player.lastKey = 'a';
 			break;
 		case 'w':
-			player.velocity.y = -20;
+			if (player.velocity.y === 0) {
+				player.velocity.y = -20;
+			}
 			break;
 		case ' ':
 			player.attack();
-
 			break;
 
 		// Enemy player
@@ -169,7 +177,9 @@ window.addEventListener('keydown', (event) => {
 			enemy.lastKey = 'ArrowLeft';
 			break;
 		case 'ArrowUp':
-			enemy.velocity.y = -20;
+			if (enemy.velocity.y === 0) {
+				enemy.velocity.y = -20;
+			}
 			break;
 		case 'ArrowDown':
 			enemy.attack();
