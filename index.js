@@ -1,78 +1,35 @@
-const canvas = document.querySelector('canvas');
+import { Fighter } from './classes/Fighter.js';
+import { Sprite } from './classes/Sprite.js';
+import { rectangularCollision } from './utils/RectangularCollision.js';
+import { determineWinner } from './utils/DetermineWinner.js';
+import { decreaseTimer, timerId } from './utils/Timer.js';
 
-const context = canvas.getContext('2d');
+export const canvas = document.querySelector('canvas');
+
+export const context = canvas.getContext('2d');
 
 canvas.width = 1024;
 canvas.height = 576;
 
+export const gravity = 0.7;
+
 context.fillRect(0, 0, canvas.width, canvas.height);
 
-const gravity = 0.7;
+const background = new Sprite({
+	position: {
+		x: 0,
+		y: 0,
+	},
+	imageSrc: './backgroundImages/background.png',
+});
 
-class Sprite {
-	constructor({ position, velocity, color = 'red', offset }) {
-		this.position = position;
-		this.velocity = velocity;
-		this.width = 50;
-		this.height = 150;
-		this.lastKey;
-		this.attackBox = {
-			position: {
-				x: this.position.x,
-				y: this.position.y,
-			},
-			offset: offset,
-			width: 100,
-			height: 50,
-		};
-		this.color = color;
-		this.isAttacking;
-		this.health = 100;
-	}
-
-	draw() {
-		context.fillStyle = this.color;
-		context.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-		if (this.isAttacking) {
-			// Attack box color
-			context.fillStyle = 'green';
-			// Attack box
-			context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
-		}
-	}
-
-	update() {
-		this.draw();
-		this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-		this.attackBox.position.y = this.position.y;
-
-		this.position.x += this.velocity.x;
-		this.position.y += this.velocity.y;
-
-		if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-			this.velocity.y = 0;
-		} else {
-			this.velocity.y += gravity;
-		}
-	}
-
-	attack() {
-		this.isAttacking = true;
-
-		setTimeout(() => {
-			this.isAttacking = false;
-		}, 100);
-	}
-}
-
-const player = new Sprite({
+export const player = new Fighter({
 	position: { x: 0, y: 0 },
 	velocity: { x: 0, y: 0 },
 	offset: { x: 0, y: 0 },
 });
 
-const enemy = new Sprite({
+export const enemy = new Fighter({
 	position: { x: 400, y: 100 },
 	velocity: { x: 0, y: 0 },
 	color: 'blue',
@@ -94,52 +51,13 @@ const keys = {
 	},
 };
 
-function rectangularCollision({ rectangleOne, rectangleTwo }) {
-	// Left side of player is [player.attackBox.position.x] ?? Right side of player is [player.attackBox.position.x + player.attackBox.width] ?? Bottom of player is [player.attackBox.position.y + player.attackBox.height]
-	// Detect for collision
-	return (
-		rectangleOne.attackBox.position.x + rectangleOne.attackBox.width >= rectangleTwo.position.x &&
-		rectangleOne.attackBox.position.x <= rectangleTwo.position.x + rectangleTwo.width &&
-		rectangleOne.attackBox.position.y + rectangleOne.attackBox.height >= rectangleTwo.position.y &&
-		rectangleOne.attackBox.position.y <= rectangleTwo.position.y + rectangleTwo.height
-	);
-}
-
-function determineWinner({ player, enemy, timerId }) {
-	clearTimeout(timerId);
-
-	document.querySelector('#display-result').style.display = 'flex';
-
-	if (player.health === enemy.health) {
-		document.querySelector('#display-result').textContent = 'Draw';
-	} else if (player.health > enemy.health) {
-		document.querySelector('#display-result').textContent = 'Player 1 Wins';
-	} else if (player.health < enemy.health) {
-		document.querySelector('#display-result').textContent = 'Player 2 Wins';
-	}
-}
-
-let timer = 120;
-let timerId;
-
-function decreaseTimer() {
-	if (timer > 0) {
-		timerId = setTimeout(decreaseTimer, 1000);
-		timer--;
-		document.querySelector('#timer').textContent = timer;
-	}
-
-	if (timer === 0) {
-		determineWinner({ player, enemy, timerId });
-	}
-}
-
 decreaseTimer();
 
 function animate() {
 	window.requestAnimationFrame(animate);
 	context.fillStyle = 'black';
 	context.fillRect(0, 0, canvas.width, canvas.height); // clears the canvas
+	background.update();
 	player.update();
 	enemy.update();
 

@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Fighting Game</title>
-    <script src="index.js" defer></script>
+    <script type="module" defer src="index.js"></script>
+    <script type="module" defer src="/classes/Fighter.js"></script>
+    <script type="module" defer src="/classes/Sprite.js"></script>
+    <script type="module" defer src="/utils/RectangularCollision.js"></script>
+    <script type="module" defer src="/utils/DetermineWinner.js"></script>
+    <script type="module" defer src="/utils/Timer.js"></script>
 </head>
 <body>
 
@@ -18,7 +23,7 @@
                 <div id="player-health-decrease-bar"></div>
             </div>
             <!-- timer -->
-            <div id="timer">10</div>
+            <div id="timer">120</div>
             <!-- enemy health-->
             <div id="enemy-bar">
                 <div id="enemy-health"></div>
