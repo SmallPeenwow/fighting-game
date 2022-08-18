@@ -44,6 +44,16 @@ export const player = new Fighter({
 		x: 215,
 		y: 156,
 	},
+	sprites: {
+		idle: {
+			imageSrc: './warriorImages/samuraiMack/Idle.png',
+			framesMax: 8,
+		},
+		run: {
+			imageSrc: './warriorImages/samuraiMack/Run.png',
+			framesMax: 8,
+		},
+	},
 });
 
 export const enemy = new Fighter({
@@ -82,11 +92,15 @@ function animate() {
 	player.velocity.x = 0; // Default player velocity is 0
 	enemy.velocity.x = 0; // Default enemy velocity is 0
 
+	// Player idle movement
+	player.image = player.sprites.idle.image;
 	// Player movement
 	if (keys.a.pressed && player.lastKey === 'a') {
 		player.velocity.x = -5;
+		player.image = player.sprites.run.image;
 	} else if (keys.d.pressed && player.lastKey === 'd') {
 		player.velocity.x = 5;
+		player.image = player.sprites.run.image;
 	}
 
 	// Enemy movement
@@ -132,7 +146,7 @@ window.addEventListener('keydown', (event) => {
 			break;
 		case 'w':
 			if (player.velocity.y === 0) {
-				player.velocity.y = -20;
+				player.velocity.y = -17;
 			}
 			break;
 		case ' ':
@@ -150,7 +164,7 @@ window.addEventListener('keydown', (event) => {
 			break;
 		case 'ArrowUp':
 			if (enemy.velocity.y === 0) {
-				enemy.velocity.y = -15;
+				enemy.velocity.y = -17;
 			}
 			break;
 		case 'ArrowDown':
