@@ -37,6 +37,13 @@ export const player = new Fighter({
 	position: { x: 0, y: 0 },
 	velocity: { x: 0, y: 0 },
 	offset: { x: 0, y: 0 },
+	imageSrc: './warriorImages/samuraiMack/Idle.png',
+	framesMax: 8,
+	scale: 2.5,
+	offset: {
+		x: 215,
+		y: 156,
+	},
 });
 
 export const enemy = new Fighter({
@@ -70,7 +77,7 @@ function animate() {
 	background.update();
 	shop.update();
 	player.update();
-	enemy.update();
+	//enemy.update();
 
 	player.velocity.x = 0; // Default player velocity is 0
 	enemy.velocity.x = 0; // Default enemy velocity is 0
