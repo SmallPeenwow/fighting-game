@@ -34,7 +34,7 @@ const shop = new Sprite({
 });
 
 export const player = new Fighter({
-	position: { x: 150, y: canvas.height - 250 },
+	position: { x: 150, y: 330 },
 	velocity: { x: 0, y: 0 },
 	offset: { x: 0, y: 0 },
 	imageSrc: './warriorImages/samuraiMack/Idle.png',
@@ -56,6 +56,14 @@ export const player = new Fighter({
 		runLeft: {
 			imageSrc: './warriorImages/samuraiMack/Run-Left.png',
 			framesMax: 8,
+		},
+		jump: {
+			imageSrc: './warriorImages/samuraiMack/Jump.png',
+			framesMax: 2,
+		},
+		fall: {
+			imageSrc: './warriorImages/samuraiMack/Fall.png',
+			framesMax: 2,
 		},
 	},
 });
@@ -96,15 +104,23 @@ function animate() {
 	player.velocity.x = 0; // Default player velocity is 0
 	enemy.velocity.x = 0; // Default enemy velocity is 0
 
-	// Player idle movement
-	player.image = player.sprites.idle.image;
 	// Player movement
 	if (keys.a.pressed && player.lastKey === 'a') {
 		player.velocity.x = -5;
-		player.image = player.sprites.runLeft.image; // Run Left
+		player.switchSprite('runLeft');
 	} else if (keys.d.pressed && player.lastKey === 'd') {
 		player.velocity.x = 5;
-		player.image = player.sprites.runRight.image; // Run Right
+		player.switchSprite('runRight');
+	} else {
+		// Player idle ?? facing side TODO
+		player.switchSprite('idle');
+	}
+
+	// Player Jump check
+	if (player.velocity.y < 0) {
+		player.switchSprite('jump');
+	} else if (player.velocity.y > 0) {
+		player.switchSprite('fall');
 	}
 
 	// Enemy movement
