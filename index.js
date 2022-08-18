@@ -37,7 +37,7 @@ export const player = new Fighter({
 	position: { x: 150, y: 330 },
 	velocity: { x: 0, y: 0 },
 	offset: { x: 0, y: 0 },
-	imageSrc: './warriorImages/samuraiMack/Idle.png',
+	imageSrc: './warriorImages/samuraiMack/Idle-Right.png',
 	framesMax: 8,
 	scale: 2.5,
 	offset: {
@@ -45,8 +45,12 @@ export const player = new Fighter({
 		y: 156,
 	},
 	sprites: {
-		idle: {
-			imageSrc: './warriorImages/samuraiMack/Idle.png',
+		idleRight: {
+			imageSrc: './warriorImages/samuraiMack/Idle-Right.png',
+			framesMax: 8,
+		},
+		idleLeft: {
+			imageSrc: './warriorImages/samuraiMack/Idle-Left.png',
 			framesMax: 8,
 		},
 		runRight: {
@@ -57,12 +61,20 @@ export const player = new Fighter({
 			imageSrc: './warriorImages/samuraiMack/Run-Left.png',
 			framesMax: 8,
 		},
-		jump: {
-			imageSrc: './warriorImages/samuraiMack/Jump.png',
+		jumpRight: {
+			imageSrc: './warriorImages/samuraiMack/Jump-Right.png',
 			framesMax: 2,
 		},
-		fall: {
-			imageSrc: './warriorImages/samuraiMack/Fall.png',
+		jumpLeft: {
+			imageSrc: './warriorImages/samuraiMack/Jump-Left.png',
+			framesMax: 2,
+		},
+		fallRight: {
+			imageSrc: './warriorImages/samuraiMack/Fall-Right.png',
+			framesMax: 2,
+		},
+		fallLeft: {
+			imageSrc: './warriorImages/samuraiMack/Fall-Left.png',
 			framesMax: 2,
 		},
 	},
@@ -111,16 +123,23 @@ function animate() {
 	} else if (keys.d.pressed && player.lastKey === 'd') {
 		player.velocity.x = 5;
 		player.switchSprite('runRight');
+	} else if (!keys.a.pressed && player.lastKey === 'a') {
+		player.switchSprite('idleLeft');
 	} else {
 		// Player idle ?? facing side TODO
-		player.switchSprite('idle');
+		player.switchSprite('idleRight');
 	}
 
-	// Player Jump check
-	if (player.velocity.y < 0) {
-		player.switchSprite('jump');
+	// Player Jump Check Left
+	if (player.velocity.y < 0 && player.lastKey === 'a') {
+		player.switchSprite('jumpLeft');
+	} else if (player.velocity.y > 0 && player.lastKey === 'a') {
+		player.switchSprite('fallLeft');
+	} else if (player.velocity.y < 0) {
+		//Player Jump check Right
+		player.switchSprite('jumpRight');
 	} else if (player.velocity.y > 0) {
-		player.switchSprite('fall');
+		player.switchSprite('fallRight');
 	}
 
 	// Enemy movement

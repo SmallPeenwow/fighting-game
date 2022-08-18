@@ -66,10 +66,17 @@ export class Fighter extends Sprite {
 
 	switchSprite(sprite) {
 		switch (sprite) {
-			case 'idle':
-				if (this.image !== this.sprites.idle.image) {
-					this.image = this.sprites.idle.image;
-					this.framesMax = this.sprites.idle.framesMax;
+			case 'idleRight':
+				if (this.image !== this.sprites.idleRight.image) {
+					this.image = this.sprites.idleRight.image;
+					this.framesMax = this.sprites.idleRight.framesMax;
+					this.framesCurrent = 0;
+				}
+				break;
+			case 'idleLeft':
+				if (this.image !== this.sprites.idleLeft.image) {
+					this.image = this.sprites.idleLeft.image;
+					this.framesMax = this.sprites.idleLeft.framesMax;
 					this.framesCurrent = 0;
 				}
 				break;
@@ -87,17 +94,31 @@ export class Fighter extends Sprite {
 					this.framesCurrent = 0;
 				}
 				break;
-			case 'jump':
-				if (this.image !== this.sprites.jump.image) {
-					this.image = this.sprites.jump.image;
-					this.framesMax = this.sprites.jump.framesMax;
+			case 'jumpRight':
+				if (this.image !== this.sprites.jumpRight.image) {
+					this.image = this.sprites.jumpRight.image;
+					this.framesMax = this.sprites.jumpRight.framesMax;
 					this.framesCurrent = 0;
 				}
 				break;
-			case 'fall':
-				if (this.image !== this.sprites.fall.image) {
-					this.image = this.sprites.fall.image;
-					this.framesMax = this.sprites.fall.framesMax;
+			case 'jumpLeft':
+				if (this.image !== this.sprites.jumpLeft.image) {
+					this.image = this.sprites.jumpLeft.image;
+					this.framesMax = this.sprites.jumpLeft.framesMax;
+					this.framesCurrent = 0;
+				}
+				break;
+			case 'fallRight':
+				if (this.image !== this.sprites.fallRight.image) {
+					this.image = this.sprites.fallRight.image;
+					this.framesMax = this.sprites.fallRight.framesMax;
+					this.framesCurrent = 0;
+				}
+				break;
+			case 'fallLeft':
+				if (this.image !== this.sprites.fallLeft.image) {
+					this.image = this.sprites.fallLeft.image;
+					this.framesMax = this.sprites.fallLeft.framesMax;
 					this.framesCurrent = 0;
 				}
 				break;
