@@ -34,7 +34,7 @@ const shop = new Sprite({
 });
 
 export const player = new Fighter({
-	position: { x: 0, y: 0 },
+	position: { x: 150, y: canvas.height - 250 },
 	velocity: { x: 0, y: 0 },
 	offset: { x: 0, y: 0 },
 	imageSrc: './warriorImages/samuraiMack/Idle.png',
@@ -49,8 +49,12 @@ export const player = new Fighter({
 			imageSrc: './warriorImages/samuraiMack/Idle.png',
 			framesMax: 8,
 		},
-		run: {
-			imageSrc: './warriorImages/samuraiMack/Run.png',
+		runRight: {
+			imageSrc: './warriorImages/samuraiMack/Run-Right.png',
+			framesMax: 8,
+		},
+		runLeft: {
+			imageSrc: './warriorImages/samuraiMack/Run-Left.png',
 			framesMax: 8,
 		},
 	},
@@ -97,10 +101,10 @@ function animate() {
 	// Player movement
 	if (keys.a.pressed && player.lastKey === 'a') {
 		player.velocity.x = -5;
-		player.image = player.sprites.run.image;
+		player.image = player.sprites.runLeft.image; // Run Left
 	} else if (keys.d.pressed && player.lastKey === 'd') {
 		player.velocity.x = 5;
-		player.image = player.sprites.run.image;
+		player.image = player.sprites.runRight.image; // Run Right
 	}
 
 	// Enemy movement
