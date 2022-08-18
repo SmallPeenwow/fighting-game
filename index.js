@@ -23,6 +23,16 @@ const background = new Sprite({
 	imageSrc: './backgroundImages/background.png',
 });
 
+const shop = new Sprite({
+	position: {
+		x: 600,
+		y: 128,
+	},
+	imageSrc: './backgroundImages/shop.png',
+	scale: 2.75,
+	framesMax: 6,
+});
+
 export const player = new Fighter({
 	position: { x: 0, y: 0 },
 	velocity: { x: 0, y: 0 },
@@ -58,6 +68,7 @@ function animate() {
 	context.fillStyle = 'black';
 	context.fillRect(0, 0, canvas.width, canvas.height); // clears the canvas
 	background.update();
+	shop.update();
 	player.update();
 	enemy.update();
 
@@ -132,7 +143,7 @@ window.addEventListener('keydown', (event) => {
 			break;
 		case 'ArrowUp':
 			if (enemy.velocity.y === 0) {
-				enemy.velocity.y = -20;
+				enemy.velocity.y = -15;
 			}
 			break;
 		case 'ArrowDown':
