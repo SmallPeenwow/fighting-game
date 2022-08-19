@@ -272,7 +272,7 @@ function animate() {
 	if (
 		rectangularCollision({ rectangleOne: enemy, rectangleTwo: player, DamageWidth: enemyAttackWidth }) &&
 		enemy.isAttacking &&
-		enemy.framesCurrent === 2
+		enemy.framesCurrent === 1
 	) {
 		enemy.isAttacking = false;
 
@@ -282,7 +282,7 @@ function animate() {
 	}
 
 	// Enemy misses
-	if (enemy.isAttacking && enemy.framesCurrent === 2) {
+	if (enemy.isAttacking && enemy.framesCurrent === 1) {
 		enemy.isAttacking = false;
 	}
 
@@ -313,8 +313,7 @@ window.addEventListener('keydown', (event) => {
 			}
 			break;
 		case ' ':
-			attackTriggered = true;
-			player.attack(attackTriggered);
+			player.attack();
 			break;
 
 		// Enemy player

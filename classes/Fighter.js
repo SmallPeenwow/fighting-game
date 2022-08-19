@@ -70,18 +70,18 @@ export class Fighter extends Sprite {
 		}
 	}
 
-	attack(attackPressed) {
+	attack() {
 		if (this.lastKey === 'a') {
 			if (this.attackStyle === 'attackOne') {
-				this.switchSprite('attack1Left', attackPressed);
+				this.switchSprite('attack1Left');
 			} else {
-				this.switchSprite('attack2Left', attackPressed);
+				this.switchSprite('attack2Left');
 			}
 		} else {
 			if (this.attackStyle === 'attackOne') {
-				this.switchSprite('attack1Right', attackPressed);
+				this.switchSprite('attack1Right');
 			} else {
-				this.switchSprite('attack2Right', attackPressed);
+				this.switchSprite('attack2Right');
 			}
 		}
 
@@ -99,15 +99,15 @@ export class Fighter extends Sprite {
 		this.health -= 5;
 	}
 
-	attackCheck(attackPressed) {
+	attackCheck() {
 		let returnValue = false;
-		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.framesMax - 1 && !attackPressed) {
+		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.framesMax - 1) {
 			returnValue = true;
-		} else if (this.image === this.sprites.attack2Right.image && this.framesCurrent < this.sprites.attack2Right.framesMax - 1 && !attackPressed) {
+		} else if (this.image === this.sprites.attack2Right.image && this.framesCurrent < this.sprites.attack2Right.framesMax - 1) {
 			returnValue = true;
-		} else if (this.image === this.sprites.attack1Left.image && this.framesCurrent < this.sprites.attack1Left.framesMax - 1 && !attackPressed) {
+		} else if (this.image === this.sprites.attack1Left.image && this.framesCurrent < this.sprites.attack1Left.framesMax - 1) {
 			returnValue = true;
-		} else if (this.image === this.sprites.attack2Left.image && this.framesCurrent < this.sprites.attack2Left.framesMax - 1 && !attackPressed) {
+		} else if (this.image === this.sprites.attack2Left.image && this.framesCurrent < this.sprites.attack2Left.framesMax - 1) {
 			returnValue = true;
 		} else {
 			returnValue = false;
@@ -116,9 +116,9 @@ export class Fighter extends Sprite {
 		return returnValue;
 	}
 
-	switchSprite(sprite, attackPressed) {
+	switchSprite(sprite) {
 		// Overrides all other animations with attack animation
-		let checkValue = this.attackCheck(attackPressed);
+		let checkValue = this.attackCheck();
 		if (checkValue) return;
 
 		// Override when fighter gets hit
