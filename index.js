@@ -94,6 +94,14 @@ export const player = new Fighter({
 			framesMax: 3,
 		},
 	},
+	attackBox: {
+		offset: {
+			x: 100,
+			y: 50,
+		},
+		width: 160,
+		height: 50,
+	},
 });
 
 export const enemy = new Fighter({
@@ -141,6 +149,14 @@ export const enemy = new Fighter({
 			imageSrc: './warriorImages/kenji/Attack1-Left.png',
 			framesMax: 4,
 		},
+	},
+	attackBox: {
+		offset: {
+			x: -170,
+			y: 50,
+		},
+		width: 165,
+		height: 50,
 	},
 });
 
@@ -217,7 +233,7 @@ function animate() {
 		enemy.switchSprite('fallLeft');
 	}
 
-	if (rectangularCollision({ rectangleOne: player, rectangleTwo: enemy }) && player.isAttacking) {
+	if (rectangularCollision({ rectangleOne: player, rectangleTwo: enemy }) && player.isAttacking && player.framesCurrent === 1) {
 		player.isAttacking = false;
 
 		// Health bar decreases
@@ -225,7 +241,12 @@ function animate() {
 		document.querySelector('#enemy-health-decrease-bar').style.width = enemy.health + '%';
 	}
 
-	if (rectangularCollision({ rectangleOne: enemy, rectangleTwo: player }) && enemy.isAttacking) {
+	// Player misses
+	if (player.isAttacking && player.framesCurrent === 1) {
+		player.isAttacking = false;
+	}
+
+	if (rectangularCollision({ rectangleOne: enemy, rectangleTwo: player }) && enemy.isAttacking && enemy.framesCurrent === 2) {
 		enemy.isAttacking = false;
 
 		// Health bar decreases
@@ -233,6 +254,10 @@ function animate() {
 		document.querySelector('#player-health-decrease-bar').style.width = player.health + '%';
 	}
 
+	// Enemy misses
+	if (enemy.isAttacking && enemy.framesCurrent === 2) {
+		enemy.isAttacking = false;
+	}
 	//End game based on health
 	if (enemy.health <= 0 || player.health <= 0) {
 		determineWinner({ player, enemy, timerId });

@@ -2,7 +2,17 @@ import { context, canvas, gravity } from '../index.js';
 import { Sprite } from './Sprite.js';
 
 export class Fighter extends Sprite {
-	constructor({ position, velocity, color = 'red', imageSrc, scale = 1, framesMax = 1, offset = { x: 0, y: 0 }, sprites }) {
+	constructor({
+		position,
+		velocity,
+		color = 'red',
+		imageSrc,
+		scale = 1,
+		framesMax = 1,
+		offset = { x: 0, y: 0 },
+		sprites,
+		attackBox = { offset: {}, width: undefined, height: undefined },
+	}) {
 		super({
 			position,
 			imageSrc,
@@ -20,9 +30,9 @@ export class Fighter extends Sprite {
 				x: this.position.x,
 				y: this.position.y,
 			},
-			offset: offset,
-			width: 100,
-			height: 50,
+			offset: attackBox.offset,
+			width: attackBox.width,
+			height: attackBox.height,
 		};
 		this.color = color;
 		this.isAttacking;
@@ -31,7 +41,7 @@ export class Fighter extends Sprite {
 		this.framesElapsed = 0;
 		this.framesHold = 9;
 		this.sprites = sprites;
-		this.attackStyle;
+		this.attackStyle = 'attackOne';
 
 		for (const sprite in this.sprites) {
 			sprites[sprite].image = new Image();
@@ -39,25 +49,25 @@ export class Fighter extends Sprite {
 		}
 	}
 
-	// ?? Will be used for testing later on
-	// draw() {
-	// 	context.fillStyle = this.color;
-	// 	context.fillRect(this.position.x, this.position.y, this.width, this.height);
-
-	// 	if (this.isAttacking) {
-	// 		// Attack box color
-	// 		context.fillStyle = 'green';
-	// 		// Attack box
-	// 		context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
-	// 	}
-	// }
+	// Work in progress
+	checkAttackWith() {
+		let attackWidth = 0;
+		// Had to switch it around
+		attackWidth = this.attackStyle === 'attackOne' ? 167 : 157;
+		return attackWidth;
+	}
 
 	update() {
+		console.log(this.attackBox.width);
 		this.draw();
 		this.animateFrames();
 
+		// Attack boxes
 		this.attackBox.position.x = this.position.x + this.attackBox.offset.x;
-		this.attackBox.position.y = this.position.y;
+		this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
+
+		// For testing later
+		// context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
 
 		this.position.x += this.velocity.x;
 		this.position.y += this.velocity.y;
@@ -73,13 +83,13 @@ export class Fighter extends Sprite {
 	attack(attackPressed) {
 		if (this.lastKey === 'a') {
 			// It would need to check the opposite for it to do the next attack style
-			if (this.attackStyle === 'attack1Left') {
+			if (this.attackStyle === 'attackOne') {
 				this.switchSprite('attack2Left', attackPressed);
 			} else {
 				this.switchSprite('attack1Left', attackPressed);
 			}
 		} else {
-			if (this.attackStyle === 'attack1Right') {
+			if (this.attackStyle === 'attackOne') {
 				this.switchSprite('attack2Right', attackPressed);
 			} else {
 				this.switchSprite('attack1Right', attackPressed);
@@ -88,9 +98,9 @@ export class Fighter extends Sprite {
 
 		this.isAttacking = true;
 
-		setTimeout(() => {
-			this.isAttacking = false;
-		}, 100);
+		// setTimeout(() => {
+		// 	this.isAttacking = false;
+		// }, 100);
 	}
 
 	attackCheck(attackPressed) {
@@ -106,6 +116,8 @@ export class Fighter extends Sprite {
 		} else {
 			returnValue = false;
 		}
+
+		//this.attackBox.width = this.checkAttackWith();
 
 		return returnValue;
 	}
@@ -176,7 +188,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack1Right.image;
 					this.framesMax = this.sprites.attack1Right.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attack1Right';
+					this.attackStyle = 'attackOne';
 				}
 				break;
 			case 'attack2Right':
@@ -184,7 +196,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack2Right.image;
 					this.framesMax = this.sprites.attack2Right.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attack2Right';
+					this.attackStyle = 'attackTwo';
 				}
 				break;
 			case 'attack1Left':
@@ -192,7 +204,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack1Left.image;
 					this.framesMax = this.sprites.attack1Left.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attack1Left';
+					this.attackStyle = 'attackOne';
 				}
 				break;
 			case 'attack2Left':
@@ -200,7 +212,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack2Left.image;
 					this.framesMax = this.sprites.attack2Left.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attack2Left';
+					this.attackStyle = 'attackTwo';
 				}
 				break;
 		}
