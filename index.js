@@ -181,6 +181,9 @@ function animate() {
 
 animate();
 
+// Will be used to swap attack styles quickly
+let attackTriggered = false;
+
 window.addEventListener('keydown', (event) => {
 	switch (event.key) {
 		case 'd':
@@ -197,7 +200,8 @@ window.addEventListener('keydown', (event) => {
 			}
 			break;
 		case ' ':
-			player.attack();
+			attackTriggered = true;
+			player.attack(attackTriggered);
 			break;
 
 		// Enemy player
@@ -227,6 +231,9 @@ window.addEventListener('keyup', (event) => {
 			break;
 		case 'a':
 			keys.a.pressed = false;
+			break;
+		case ' ':
+			attackTriggered = false;
 			break;
 	}
 

@@ -2,7 +2,7 @@ import { context, canvas, gravity } from '../index.js';
 import { Sprite } from './Sprite.js';
 
 export class Fighter extends Sprite {
-	constructor({ position, velocity, color = 'red', imageSrc, scale = 1, framesMax = 1, offset = { x: 0, y: 0 }, sprites, attackStyle }) {
+	constructor({ position, velocity, color = 'red', imageSrc, scale = 1, framesMax = 1, offset = { x: 0, y: 0 }, sprites }) {
 		super({
 			position,
 			imageSrc,
@@ -31,7 +31,7 @@ export class Fighter extends Sprite {
 		this.framesElapsed = 0;
 		this.framesHold = 9;
 		this.sprites = sprites;
-		this.attackStyle = attackStyle; //
+		this.attackStyle;
 
 		for (const sprite in this.sprites) {
 			sprites[sprite].image = new Image();
@@ -57,8 +57,13 @@ export class Fighter extends Sprite {
 		}
 	}
 
-	attack() {
-		this.switchSprite('attack1Right');
+	attack(attackPressed) {
+		if (this.attackStyle === 'attack1Right') {
+			this.switchSprite('attack2Right', attackPressed);
+		} else {
+			this.switchSprite('attack1Right', attackPressed);
+		}
+
 		this.isAttacking = true;
 
 		setTimeout(() => {
@@ -66,8 +71,12 @@ export class Fighter extends Sprite {
 		}, 100);
 	}
 
-	switchSprite(sprite) {
-		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.frames - 1) return;
+	switchSprite(sprite, attackPressed) {
+		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.framesMax - 1 && !attackPressed) {
+			return;
+		} else if (this.image === this.sprites.attack2Right.image && this.framesCurrent < this.sprites.attack2Right.framesMax - 1 && !attackPressed) {
+			return;
+		}
 
 		switch (sprite) {
 			case 'idleRight':
@@ -131,6 +140,15 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack1Right.image;
 					this.framesMax = this.sprites.attack1Right.framesMax;
 					this.framesCurrent = 0;
+					this.attackStyle = 'attack1Right';
+				}
+				break;
+			case 'attack2Right':
+				if (this.image !== this.sprites.attack2Right.image) {
+					this.image = this.sprites.attack2Right.image;
+					this.framesMax = this.sprites.attack2Right.framesMax;
+					this.framesCurrent = 0;
+					this.attackStyle = 'attack2Right';
 				}
 				break;
 		}
