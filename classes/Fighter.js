@@ -88,6 +88,17 @@ export class Fighter extends Sprite {
 		this.isAttacking = true;
 	}
 
+	takeHit() {
+		if (this.lastKey === 'a' || this.lastKey === 'ArrowLeft') {
+			this.switchSprite('takeHitRight');
+		} else {
+			this.switchSprite('takeHitLeft');
+		}
+
+		// Health bar decreases
+		this.health -= 5;
+	}
+
 	attackCheck(attackPressed) {
 		let returnValue = false;
 		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.framesMax - 1 && !attackPressed) {
@@ -106,8 +117,16 @@ export class Fighter extends Sprite {
 	}
 
 	switchSprite(sprite, attackPressed) {
+		// Overrides all other animations with attack animation
 		let checkValue = this.attackCheck(attackPressed);
 		if (checkValue) return;
+
+		// Override when fighter gets hit
+		if (this.image == this.sprites.takeHitLeft.image && this.framesCurrent < this.sprites.takeHitLeft.framesMax - 1) {
+			return;
+		} else if (this.image == this.sprites.takeHitRight.image && this.framesCurrent < this.sprites.takeHitRight.framesMax - 1) {
+			return;
+		}
 
 		switch (sprite) {
 			case 'idleRight':
@@ -196,6 +215,20 @@ export class Fighter extends Sprite {
 					this.framesMax = this.sprites.attack2Left.framesMax;
 					this.framesCurrent = 0;
 					this.attackStyle = 'attackOne';
+				}
+				break;
+			case 'takeHitRight':
+				if (this.image !== this.sprites.takeHitRight.image) {
+					this.image = this.sprites.takeHitRight.image;
+					this.framesMax = this.sprites.takeHitRight.framesMax;
+					this.framesCurrent = 0;
+				}
+				break;
+			case 'takeHitLeft':
+				if (this.image !== this.sprites.takeHitLeft.image) {
+					this.image = this.sprites.takeHitLeft.image;
+					this.framesMax = this.sprites.takeHitLeft.framesMax;
+					this.framesCurrent = 0;
 				}
 				break;
 		}

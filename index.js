@@ -93,6 +93,14 @@ export const player = new Fighter({
 			imageSrc: './warriorImages/samuraiMack/Attack2-Left.png',
 			framesMax: 3,
 		},
+		takeHitRight: {
+			imageSrc: './warriorImages/samuraiMack/Take Hit Right - white silhouette.png',
+			framesMax: 4,
+		},
+		takeHitLeft: {
+			imageSrc: './warriorImages/samuraiMack/Take Hit Right - white silhouette.png',
+			framesMax: 4,
+		},
 	},
 	attackBox: {
 		offset: {
@@ -146,6 +154,14 @@ export const enemy = new Fighter({
 		},
 		attack2Right: {
 			imageSrc: './warriorImages/kenji/Attack2-Left.png',
+			framesMax: 4,
+		},
+		takeHitRight: {
+			imageSrc: './warriorImages/kenji/Take Hit Left- white silhouette.png',
+			framesMax: 4,
+		},
+		takeHitLeft: {
+			imageSrc: './warriorImages/kenji/Take Hit Left- white silhouette.png',
 			framesMax: 4,
 		},
 	},
@@ -235,6 +251,7 @@ function animate() {
 		enemy.switchSprite('fallLeft');
 	}
 
+	// Detect for collision & enemy gets hit
 	if (
 		rectangularCollision({ rectangleOne: player, rectangleTwo: enemy, DamageWidth: playerAttackWidth }) &&
 		player.isAttacking &&
@@ -242,8 +259,8 @@ function animate() {
 	) {
 		player.isAttacking = false;
 
-		// Health bar decreases
-		enemy.health -= 5;
+		enemy.takeHit();
+
 		document.querySelector('#enemy-health-decrease-bar').style.width = enemy.health + '%';
 	}
 
@@ -259,8 +276,8 @@ function animate() {
 	) {
 		enemy.isAttacking = false;
 
-		// Health bar decreases
-		player.health -= 5;
+		player.takeHit();
+
 		document.querySelector('#player-health-decrease-bar').style.width = player.health + '%';
 	}
 
@@ -268,6 +285,7 @@ function animate() {
 	if (enemy.isAttacking && enemy.framesCurrent === 2) {
 		enemy.isAttacking = false;
 	}
+
 	//End game based on health
 	if (enemy.health <= 0 || player.health <= 0) {
 		determineWinner({ player, enemy, timerId });
