@@ -79,11 +79,11 @@ export const player = new Fighter({
 		},
 		attack1Right: {
 			imageSrc: './warriorImages/samuraiMack/Attack1-Right.png',
-			framesMax: 6,
+			framesMax: 3,
 		},
 		attack2Right: {
 			imageSrc: './warriorImages/samuraiMack/Attack2-Right.png',
-			framesMax: 6,
+			framesMax: 3,
 		},
 	},
 });
