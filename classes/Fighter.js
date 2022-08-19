@@ -58,10 +58,19 @@ export class Fighter extends Sprite {
 	}
 
 	attack(attackPressed) {
-		if (this.attackStyle === 'attack1Right') {
-			this.switchSprite('attack2Right', attackPressed);
+		if (this.lastKey === 'a') {
+			// It would need to check the opposite for it to do the next attack style
+			if (this.attackStyle === 'attack1Left') {
+				this.switchSprite('attack2Left', attackPressed);
+			} else {
+				this.switchSprite('attack1Left', attackPressed);
+			}
 		} else {
-			this.switchSprite('attack1Right', attackPressed);
+			if (this.attackStyle === 'attack1Right') {
+				this.switchSprite('attack2Right', attackPressed);
+			} else {
+				this.switchSprite('attack1Right', attackPressed);
+			}
 		}
 
 		this.isAttacking = true;
@@ -71,12 +80,24 @@ export class Fighter extends Sprite {
 		}, 100);
 	}
 
-	switchSprite(sprite, attackPressed) {
+	attackCheck(attackPressed) {
+		let returnValue = false;
 		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.framesMax - 1 && !attackPressed) {
-			return;
+			returnValue = true;
 		} else if (this.image === this.sprites.attack2Right.image && this.framesCurrent < this.sprites.attack2Right.framesMax - 1 && !attackPressed) {
-			return;
+			returnValue = true;
+		} else if (this.image === this.sprites.attack1Left.image && this.framesCurrent < this.sprites.attack1Left.framesMax - 1 && !attackPressed) {
+			returnValue = true;
+		} else if (this.image === this.sprites.attack2Left.image && this.framesCurrent < this.sprites.attack2Left.framesMax - 1 && !attackPressed) {
+			returnValue = true;
 		}
+
+		return returnValue;
+	}
+
+	switchSprite(sprite, attackPressed) {
+		let checkValue = this.attackCheck(attackPressed);
+		if (checkValue) return;
 
 		switch (sprite) {
 			case 'idleRight':
@@ -149,6 +170,22 @@ export class Fighter extends Sprite {
 					this.framesMax = this.sprites.attack2Right.framesMax;
 					this.framesCurrent = 0;
 					this.attackStyle = 'attack2Right';
+				}
+				break;
+			case 'attack1Left':
+				if (this.image !== this.sprites.attack1Left.image) {
+					this.image = this.sprites.attack1Left.image;
+					this.framesMax = this.sprites.attack1Left.framesMax;
+					this.framesCurrent = 0;
+					this.attackStyle = 'attack1Left';
+				}
+				break;
+			case 'attack2Left':
+				if (this.image !== this.sprites.attack2Left.image) {
+					this.image = this.sprites.attack2Left.image;
+					this.framesMax = this.sprites.attack2Left.framesMax;
+					this.framesCurrent = 0;
+					this.attackStyle = 'attack2Left';
 				}
 				break;
 		}
