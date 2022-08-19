@@ -97,10 +97,51 @@ export const player = new Fighter({
 });
 
 export const enemy = new Fighter({
-	position: { x: 400, y: 100 },
+	position: { x: 750, y: 330 },
 	velocity: { x: 0, y: 0 },
 	color: 'blue',
 	offset: { x: -50, y: 0 },
+	imageSrc: './warriorImages/kenji/Idle-Left.png',
+	framesMax: 4,
+	scale: 2.5,
+	offset: {
+		x: 215,
+		y: 166,
+	},
+	sprites: {
+		idleLeft: {
+			imageSrc: './warriorImages/kenji/Idle-Left.png',
+			framesMax: 4,
+		},
+		runLeft: {
+			imageSrc: './warriorImages/kenji/Run-Left.png',
+			framesMax: 8,
+		},
+		jumpLeft: {
+			imageSrc: './warriorImages/kenji/Jump-Left.png',
+			framesMax: 2,
+		},
+		fallLeft: {
+			imageSrc: './warriorImages/kenji/Fall-Left.png',
+			framesMax: 2,
+		},
+		attack1Left: {
+			imageSrc: './warriorImages/kenji/Attack1-Left.png',
+			framesMax: 4,
+		},
+		attack2Left: {
+			imageSrc: './warriorImages/kenji/Attack1-Left.png',
+			framesMax: 4,
+		},
+		attack1Right: {
+			imageSrc: './warriorImages/kenji/Attack1-Left.png',
+			framesMax: 4,
+		},
+		attack2Right: {
+			imageSrc: './warriorImages/kenji/Attack1-Left.png',
+			framesMax: 4,
+		},
+	},
 });
 
 const keys = {
@@ -127,7 +168,7 @@ function animate() {
 	background.update();
 	shop.update();
 	player.update();
-	//enemy.update();
+	enemy.update();
 
 	player.velocity.x = 0; // Default player velocity is 0
 	enemy.velocity.x = 0; // Default enemy velocity is 0
@@ -161,8 +202,19 @@ function animate() {
 	// Enemy movement
 	if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
 		enemy.velocity.x = -5;
+		enemy.switchSprite('runLeft');
 	} else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
 		enemy.velocity.x = 5;
+		enemy.switchSprite('runLeft');
+	} else {
+		enemy.switchSprite('idleLeft');
+	}
+
+	// Enemy Jump Check
+	if (enemy.velocity.y < 0) {
+		enemy.switchSprite('jumpLeft');
+	} else if (enemy.velocity.y > 0) {
+		enemy.switchSprite('fallLeft');
 	}
 
 	if (rectangularCollision({ rectangleOne: player, rectangleTwo: enemy }) && player.isAttacking) {

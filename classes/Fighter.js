@@ -39,6 +39,19 @@ export class Fighter extends Sprite {
 		}
 	}
 
+	// ?? Will be used for testing later on
+	// draw() {
+	// 	context.fillStyle = this.color;
+	// 	context.fillRect(this.position.x, this.position.y, this.width, this.height);
+
+	// 	if (this.isAttacking) {
+	// 		// Attack box color
+	// 		context.fillStyle = 'green';
+	// 		// Attack box
+	// 		context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
+	// 	}
+	// }
+
 	update() {
 		this.draw();
 		this.animateFrames();
@@ -90,6 +103,8 @@ export class Fighter extends Sprite {
 			returnValue = true;
 		} else if (this.image === this.sprites.attack2Left.image && this.framesCurrent < this.sprites.attack2Left.framesMax - 1 && !attackPressed) {
 			returnValue = true;
+		} else {
+			returnValue = false;
 		}
 
 		return returnValue;
