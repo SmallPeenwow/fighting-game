@@ -11,7 +11,7 @@ export class Fighter extends Sprite {
 		framesMax = 1,
 		offset = { x: 0, y: 0 },
 		sprites,
-		attackBox = { offset: {}, width: undefined, height: undefined },
+		attackBox = { offset: {}, height: undefined },
 	}) {
 		super({
 			position,
@@ -31,7 +31,6 @@ export class Fighter extends Sprite {
 				y: this.position.y,
 			},
 			offset: attackBox.offset,
-			width: attackBox.width,
 			height: attackBox.height,
 		};
 		this.color = color;
@@ -48,14 +47,6 @@ export class Fighter extends Sprite {
 			sprites[sprite].image.src = sprites[sprite].imageSrc;
 		}
 	}
-
-	// Work in progress
-	// checkAttackWith() {
-	// 	let attackWidth = 0;
-	// 	// Had to switch it around
-	// 	attackWidth = this.attackStyle === 'attackOne' ? 157 : 167;
-	// 	return attackWidth;
-	// }
 
 	update() {
 		this.draw();
@@ -81,7 +72,6 @@ export class Fighter extends Sprite {
 
 	attack(attackPressed) {
 		if (this.lastKey === 'a') {
-			// It would need to check the opposite for it to do the next attack style
 			if (this.attackStyle === 'attackOne') {
 				this.switchSprite('attack1Left', attackPressed);
 			} else {
@@ -96,10 +86,6 @@ export class Fighter extends Sprite {
 		}
 
 		this.isAttacking = true;
-
-		// setTimeout(() => {
-		// 	this.isAttacking = false;
-		// }, 100);
 	}
 
 	attackCheck(attackPressed) {

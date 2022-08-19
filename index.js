@@ -154,7 +154,6 @@ export const enemy = new Fighter({
 			x: -190,
 			y: 50,
 		},
-		width: 175,
 		height: 50,
 	},
 });
@@ -188,7 +187,7 @@ function animate() {
 	player.velocity.x = 0; // Default player velocity is 0
 	enemy.velocity.x = 0; // Default enemy velocity is 0
 
-	// Change the different attack ranges
+	// Change the different attack ranges // TODO Work on other direction that might need the offset to change for it to work
 	let playerAttackWidth = player.attackStyle === 'attackOne' ? 157 : 145;
 	let enemyAttackWidth = enemy.attackStyle === 'attackOne' ? 155 : 170;
 
