@@ -101,6 +101,14 @@ export const player = new Fighter({
 			imageSrc: './warriorImages/samuraiMack/Take Hit Right - white silhouette.png',
 			framesMax: 4,
 		},
+		deathRight: {
+			imageSrc: './warriorImages/samuraiMack/Death-Right.png',
+			framesMax: 6,
+		},
+		deathLeft: {
+			imageSrc: './warriorImages/samuraiMack/Death-Right.png',
+			framesMax: 6,
+		},
 	},
 	attackBox: {
 		offset: {
@@ -164,6 +172,14 @@ export const enemy = new Fighter({
 			imageSrc: './warriorImages/kenji/Take Hit Left- white silhouette.png',
 			framesMax: 4,
 		},
+		deathRight: {
+			imageSrc: './warriorImages/kenji/Death.png',
+			framesMax: 7,
+		},
+		deathLeft: {
+			imageSrc: './warriorImages/kenji/Death.png',
+			framesMax: 7,
+		},
 	},
 	attackBox: {
 		offset: {
@@ -205,7 +221,7 @@ function animate() {
 
 	// Change the different attack ranges // TODO Work on other direction that might need the offset to change for it to work
 	let playerAttackWidth = player.attackStyle === 'attackOne' ? 157 : 145;
-	let enemyAttackWidth = enemy.attackStyle === 'attackOne' ? 155 : 170;
+	let enemyAttackWidth = enemy.attackStyle === 'attackOne' ? 150 : 170;
 
 	// Player movement
 	if (keys.a.pressed && player.lastKey === 'a') {
@@ -298,41 +314,48 @@ animate();
 let attackTriggered = false;
 
 window.addEventListener('keydown', (event) => {
-	switch (event.key) {
-		case 'd':
-			keys.d.pressed = true;
-			player.lastKey = 'd';
-			break;
-		case 'a':
-			keys.a.pressed = true;
-			player.lastKey = 'a';
-			break;
-		case 'w':
-			if (player.velocity.y === 0) {
-				player.velocity.y = -17;
-			}
-			break;
-		case ' ':
-			player.attack();
-			break;
+	if (!player.dead) {
+		switch (event.key) {
+			case 'd':
+				keys.d.pressed = true;
+				player.lastKey = 'd';
+				break;
+			case 'a':
+				keys.a.pressed = true;
+				player.lastKey = 'a';
+				break;
+			case 'w':
+				if (player.velocity.y === 0) {
+					player.velocity.y = -17;
+				}
+				break;
+			case ' ':
+				// Maybe do check here to stop be chuck of health taken away when held in or something else
+				player.attack();
+				break;
+		}
+	}
 
-		// Enemy player
-		case 'ArrowRight':
-			keys.ArrowRight.pressed = true;
-			enemy.lastKey = 'ArrowRight';
-			break;
-		case 'ArrowLeft':
-			keys.ArrowLeft.pressed = true;
-			enemy.lastKey = 'ArrowLeft';
-			break;
-		case 'ArrowUp':
-			if (enemy.velocity.y === 0) {
-				enemy.velocity.y = -17;
-			}
-			break;
-		case 'ArrowDown':
-			enemy.attack();
-			break;
+	if (!enemy.dead) {
+		switch (event.key) {
+			// Enemy player
+			case 'ArrowRight':
+				keys.ArrowRight.pressed = true;
+				enemy.lastKey = 'ArrowRight';
+				break;
+			case 'ArrowLeft':
+				keys.ArrowLeft.pressed = true;
+				enemy.lastKey = 'ArrowLeft';
+				break;
+			case 'ArrowUp':
+				if (enemy.velocity.y === 0) {
+					enemy.velocity.y = -17;
+				}
+				break;
+			case 'ArrowDown':
+				enemy.attack();
+				break;
+		}
 	}
 });
 
@@ -343,9 +366,6 @@ window.addEventListener('keyup', (event) => {
 			break;
 		case 'a':
 			keys.a.pressed = false;
-			break;
-		case ' ':
-			attackTriggered = false;
 			break;
 	}
 
