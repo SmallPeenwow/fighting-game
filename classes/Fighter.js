@@ -50,15 +50,14 @@ export class Fighter extends Sprite {
 	}
 
 	// Work in progress
-	checkAttackWith() {
-		let attackWidth = 0;
-		// Had to switch it around
-		attackWidth = this.attackStyle === 'attackOne' ? 167 : 157;
-		return attackWidth;
-	}
+	// checkAttackWith() {
+	// 	let attackWidth = 0;
+	// 	// Had to switch it around
+	// 	attackWidth = this.attackStyle === 'attackOne' ? 157 : 167;
+	// 	return attackWidth;
+	// }
 
 	update() {
-		console.log(this.attackBox.width);
 		this.draw();
 		this.animateFrames();
 
@@ -67,7 +66,7 @@ export class Fighter extends Sprite {
 		this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 
 		// For testing later
-		// context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
+		//context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
 
 		this.position.x += this.velocity.x;
 		this.position.y += this.velocity.y;
@@ -84,15 +83,15 @@ export class Fighter extends Sprite {
 		if (this.lastKey === 'a') {
 			// It would need to check the opposite for it to do the next attack style
 			if (this.attackStyle === 'attackOne') {
-				this.switchSprite('attack2Left', attackPressed);
-			} else {
 				this.switchSprite('attack1Left', attackPressed);
+			} else {
+				this.switchSprite('attack2Left', attackPressed);
 			}
 		} else {
 			if (this.attackStyle === 'attackOne') {
-				this.switchSprite('attack2Right', attackPressed);
-			} else {
 				this.switchSprite('attack1Right', attackPressed);
+			} else {
+				this.switchSprite('attack2Right', attackPressed);
 			}
 		}
 
@@ -116,8 +115,6 @@ export class Fighter extends Sprite {
 		} else {
 			returnValue = false;
 		}
-
-		//this.attackBox.width = this.checkAttackWith();
 
 		return returnValue;
 	}
@@ -188,7 +185,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack1Right.image;
 					this.framesMax = this.sprites.attack1Right.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attackOne';
+					this.attackStyle = 'attackTwo';
 				}
 				break;
 			case 'attack2Right':
@@ -196,7 +193,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack2Right.image;
 					this.framesMax = this.sprites.attack2Right.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attackTwo';
+					this.attackStyle = 'attackOne';
 				}
 				break;
 			case 'attack1Left':
@@ -204,7 +201,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack1Left.image;
 					this.framesMax = this.sprites.attack1Left.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attackOne';
+					this.attackStyle = 'attackTwo';
 				}
 				break;
 			case 'attack2Left':
@@ -212,7 +209,7 @@ export class Fighter extends Sprite {
 					this.image = this.sprites.attack2Left.image;
 					this.framesMax = this.sprites.attack2Left.framesMax;
 					this.framesCurrent = 0;
-					this.attackStyle = 'attackTwo';
+					this.attackStyle = 'attackOne';
 				}
 				break;
 		}

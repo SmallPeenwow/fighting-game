@@ -99,7 +99,6 @@ export const player = new Fighter({
 			x: 100,
 			y: 50,
 		},
-		width: 160,
 		height: 50,
 	},
 });
@@ -146,16 +145,16 @@ export const enemy = new Fighter({
 			framesMax: 4,
 		},
 		attack2Right: {
-			imageSrc: './warriorImages/kenji/Attack1-Left.png',
+			imageSrc: './warriorImages/kenji/Attack2-Left.png',
 			framesMax: 4,
 		},
 	},
 	attackBox: {
 		offset: {
-			x: -170,
+			x: -190,
 			y: 50,
 		},
-		width: 165,
+		width: 175,
 		height: 50,
 	},
 });
@@ -188,6 +187,10 @@ function animate() {
 
 	player.velocity.x = 0; // Default player velocity is 0
 	enemy.velocity.x = 0; // Default enemy velocity is 0
+
+	// Change the different attack ranges
+	let playerAttackWidth = player.attackStyle === 'attackOne' ? 157 : 145;
+	let enemyAttackWidth = enemy.attackStyle === 'attackOne' ? 155 : 170;
 
 	// Player movement
 	if (keys.a.pressed && player.lastKey === 'a') {
@@ -233,7 +236,11 @@ function animate() {
 		enemy.switchSprite('fallLeft');
 	}
 
-	if (rectangularCollision({ rectangleOne: player, rectangleTwo: enemy }) && player.isAttacking && player.framesCurrent === 1) {
+	if (
+		rectangularCollision({ rectangleOne: player, rectangleTwo: enemy, DamageWidth: playerAttackWidth }) &&
+		player.isAttacking &&
+		player.framesCurrent === 1
+	) {
 		player.isAttacking = false;
 
 		// Health bar decreases
@@ -246,7 +253,11 @@ function animate() {
 		player.isAttacking = false;
 	}
 
-	if (rectangularCollision({ rectangleOne: enemy, rectangleTwo: player }) && enemy.isAttacking && enemy.framesCurrent === 2) {
+	if (
+		rectangularCollision({ rectangleOne: enemy, rectangleTwo: player, DamageWidth: enemyAttackWidth }) &&
+		enemy.isAttacking &&
+		enemy.framesCurrent === 2
+	) {
 		enemy.isAttacking = false;
 
 		// Health bar decreases
