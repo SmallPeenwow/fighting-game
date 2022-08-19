@@ -2,7 +2,7 @@ import { context, canvas, gravity } from '../index.js';
 import { Sprite } from './Sprite.js';
 
 export class Fighter extends Sprite {
-	constructor({ position, velocity, color = 'red', imageSrc, scale = 1, framesMax = 1, offset = { x: 0, y: 0 }, sprites }) {
+	constructor({ position, velocity, color = 'red', imageSrc, scale = 1, framesMax = 1, offset = { x: 0, y: 0 }, sprites, attackStyle }) {
 		super({
 			position,
 			imageSrc,
@@ -31,6 +31,7 @@ export class Fighter extends Sprite {
 		this.framesElapsed = 0;
 		this.framesHold = 9;
 		this.sprites = sprites;
+		this.attackStyle = attackStyle; //
 
 		for (const sprite in this.sprites) {
 			sprites[sprite].image = new Image();
@@ -57,6 +58,7 @@ export class Fighter extends Sprite {
 	}
 
 	attack() {
+		this.switchSprite('attack1Right');
 		this.isAttacking = true;
 
 		setTimeout(() => {
@@ -65,6 +67,8 @@ export class Fighter extends Sprite {
 	}
 
 	switchSprite(sprite) {
+		if (this.image === this.sprites.attack1Right.image && this.framesCurrent < this.sprites.attack1Right.frames - 1) return;
+
 		switch (sprite) {
 			case 'idleRight':
 				if (this.image !== this.sprites.idleRight.image) {
@@ -119,6 +123,13 @@ export class Fighter extends Sprite {
 				if (this.image !== this.sprites.fallLeft.image) {
 					this.image = this.sprites.fallLeft.image;
 					this.framesMax = this.sprites.fallLeft.framesMax;
+					this.framesCurrent = 0;
+				}
+				break;
+			case 'attack1Right':
+				if (this.image !== this.sprites.attack1Right.image) {
+					this.image = this.sprites.attack1Right.image;
+					this.framesMax = this.sprites.attack1Right.framesMax;
 					this.framesCurrent = 0;
 				}
 				break;
