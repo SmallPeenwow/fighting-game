@@ -213,6 +213,8 @@ function animate() {
 	context.fillRect(0, 0, canvas.width, canvas.height); // clears the canvas
 	background.update();
 	shop.update();
+	context.fillStyle = 'rgba(255, 255, 255, 0.07)';
+	context.fillRect(0, 0, canvas.width, canvas.height);
 	player.update();
 	enemy.update();
 
@@ -277,7 +279,9 @@ function animate() {
 
 		enemy.takeHit();
 
-		document.querySelector('#enemy-health-decrease-bar').style.width = enemy.health + '%';
+		gsap.to('#enemy-health-decrease-bar', {
+			width: enemy.health + '%',
+		});
 	}
 
 	// Player misses
@@ -294,7 +298,9 @@ function animate() {
 
 		player.takeHit();
 
-		document.querySelector('#player-health-decrease-bar').style.width = player.health + '%';
+		gsap.to('#player-health-decrease-bar', {
+			width: player.health + '%',
+		});
 	}
 
 	// Enemy misses

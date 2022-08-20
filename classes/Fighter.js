@@ -133,16 +133,17 @@ export class Fighter extends Sprite {
 			return;
 		}
 
-		// Overrides all other animations with attack animation
-		let checkValue = this.attackCheck();
-		if (checkValue) return;
-
+		// Used to make sure player can't hit back when taking hit
 		// Override when fighter gets hit
 		if (this.image == this.sprites.takeHitLeft.image && this.framesCurrent < this.sprites.takeHitLeft.framesMax - 1) {
 			return;
 		} else if (this.image == this.sprites.takeHitRight.image && this.framesCurrent < this.sprites.takeHitRight.framesMax - 1) {
 			return;
 		}
+		// Overrides all other animations with attack animation
+		let attackValue = this.attackCheck();
+
+		if (attackValue) return;
 
 		switch (sprite) {
 			case 'idleRight':

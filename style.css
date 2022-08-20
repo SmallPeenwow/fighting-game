@@ -13,6 +13,7 @@ body {
 	align-items: center;
 	justify-content: center;
 	height: 100vh;
+	font-family: 'Press Start 2P', cursive;
 }
 
 #container {
@@ -31,21 +32,21 @@ body {
 /* player health */
 #player-bar {
 	position: relative;
-	height: 30px;
 	width: 100%;
-	display: flex;
-	justify-content: flex-end;
+	border-top: 4px solid white;
+	border-left: 4px solid white;
+	border-bottom: 4px solid white;
 }
 
 #player-health {
-	background-color: yellow;
+	background-color: red;
 	height: 30px;
 	width: 100%;
 }
 
 #player-health-decrease-bar {
 	position: absolute;
-	background-color: blue;
+	background-color: #818cf8;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -55,18 +56,20 @@ body {
 /*  enemy health */
 #enemy-bar {
 	position: relative;
-	height: 30px;
 	width: 100%;
+	border-top: 4px solid white;
+	border-right: 4px solid white;
+	border-bottom: 4px solid white;
 }
 
 #enemy-health {
-	background-color: yellow;
+	background-color: red;
 	height: 30px;
 }
 
 #enemy-health-decrease-bar {
 	position: absolute;
-	background-color: blue;
+	background-color: #818cf8;
 	top: 0;
 	right: 0;
 	bottom: 0;
@@ -74,13 +77,15 @@ body {
 }
 
 #timer {
-	background-color: red;
+	background-color: black;
 	width: 100px;
-	height: 100px;
+	height: 50px;
 	flex-shrink: 0;
 	display: flex;
 	align-items: center;
 	justify-content: center;
+	color: white;
+	border: 4px solid white;
 }
 
 #display-result {
