@@ -1,8 +1,9 @@
-import { Fighter } from './classes/Fighter.js';
 import { Sprite } from './classes/Sprite.js';
 import { rectangularCollision } from './utils/RectangularCollision.js';
 import { determineWinner } from './utils/DetermineWinner.js';
 import { decreaseTimer, timerId } from './utils/Timer.js';
+import { SamuraiMack } from './HeroFighters/SamuraiMack.js';
+import { Kenji } from './HeroFighters/Kenji.js';
 
 export const canvas = document.querySelector('canvas');
 
@@ -33,162 +34,20 @@ const shop = new Sprite({
 	framesMax: 6,
 });
 
-export const player = new Fighter({
-	position: { x: 150, y: 330 },
-	velocity: { x: 0, y: 0 },
-	offset: { x: 0, y: 0 },
-	imageSrc: './warriorImages/samuraiMack/Idle-Right.png',
-	framesMax: 8,
-	scale: 2.5,
-	offset: {
-		x: 215,
-		y: 156,
+const flyingObelisk = new Sprite({
+	position: {
+		x: 10,
+		y: 255,
 	},
-	sprites: {
-		idleRight: {
-			imageSrc: './warriorImages/samuraiMack/Idle-Right.png',
-			framesMax: 8,
-		},
-		idleLeft: {
-			imageSrc: './warriorImages/samuraiMack/Idle-Left.png',
-			framesMax: 8,
-		},
-		runRight: {
-			imageSrc: './warriorImages/samuraiMack/Run-Right.png',
-			framesMax: 8,
-		},
-		runLeft: {
-			imageSrc: './warriorImages/samuraiMack/Run-Left.png',
-			framesMax: 8,
-		},
-		jumpRight: {
-			imageSrc: './warriorImages/samuraiMack/Jump-Right.png',
-			framesMax: 2,
-		},
-		jumpLeft: {
-			imageSrc: './warriorImages/samuraiMack/Jump-Left.png',
-			framesMax: 2,
-		},
-		fallRight: {
-			imageSrc: './warriorImages/samuraiMack/Fall-Right.png',
-			framesMax: 2,
-		},
-		fallLeft: {
-			imageSrc: './warriorImages/samuraiMack/Fall-Left.png',
-			framesMax: 2,
-		},
-		attack1Right: {
-			imageSrc: './warriorImages/samuraiMack/Attack1-Right.png',
-			framesMax: 3,
-		},
-		attack2Right: {
-			imageSrc: './warriorImages/samuraiMack/Attack2-Right.png',
-			framesMax: 3,
-		},
-		attack1Left: {
-			imageSrc: './warriorImages/samuraiMack/Attack1-Left.png',
-			framesMax: 3,
-		},
-		attack2Left: {
-			imageSrc: './warriorImages/samuraiMack/Attack2-Left.png',
-			framesMax: 3,
-		},
-		takeHitRight: {
-			imageSrc: './warriorImages/samuraiMack/Take Hit Right - white silhouette.png',
-			framesMax: 4,
-		},
-		takeHitLeft: {
-			imageSrc: './warriorImages/samuraiMack/Take Hit Right - white silhouette.png',
-			framesMax: 4,
-		},
-		deathRight: {
-			imageSrc: './warriorImages/samuraiMack/Death-Right.png',
-			framesMax: 6,
-		},
-		deathLeft: {
-			imageSrc: './warriorImages/samuraiMack/Death-Right.png',
-			framesMax: 6,
-		},
-	},
-	attackBox: {
-		offset: {
-			x: 100,
-			y: 50,
-		},
-		height: 50,
-	},
+	imageSrc: './backgroundImages/FlyingObelisk.png',
+	scale: 0.5,
+	framesMax: 13,
 });
 
-export const enemy = new Fighter({
-	position: { x: 750, y: 330 },
-	velocity: { x: 0, y: 0 },
-	color: 'blue',
-	offset: { x: -50, y: 0 },
-	imageSrc: './warriorImages/kenji/Idle-Left.png',
-	framesMax: 4,
-	scale: 2.5,
-	offset: {
-		x: 215,
-		y: 166,
-	},
-	sprites: {
-		idleLeft: {
-			imageSrc: './warriorImages/kenji/Idle-Left.png',
-			framesMax: 4,
-		},
-		runLeft: {
-			imageSrc: './warriorImages/kenji/Run-Left.png',
-			framesMax: 8,
-		},
-		jumpLeft: {
-			imageSrc: './warriorImages/kenji/Jump-Left.png',
-			framesMax: 2,
-		},
-		fallLeft: {
-			imageSrc: './warriorImages/kenji/Fall-Left.png',
-			framesMax: 2,
-		},
-		attack1Left: {
-			imageSrc: './warriorImages/kenji/Attack1-Left.png',
-			framesMax: 4,
-		},
-		attack2Left: {
-			imageSrc: './warriorImages/kenji/Attack1-Left.png',
-			framesMax: 4,
-		},
-		attack1Right: {
-			imageSrc: './warriorImages/kenji/Attack1-Left.png',
-			framesMax: 4,
-		},
-		attack2Right: {
-			imageSrc: './warriorImages/kenji/Attack2-Left.png',
-			framesMax: 4,
-		},
-		takeHitRight: {
-			imageSrc: './warriorImages/kenji/Take Hit Left- white silhouette.png',
-			framesMax: 4,
-		},
-		takeHitLeft: {
-			imageSrc: './warriorImages/kenji/Take Hit Left- white silhouette.png',
-			framesMax: 4,
-		},
-		deathRight: {
-			imageSrc: './warriorImages/kenji/Death.png',
-			framesMax: 7,
-		},
-		deathLeft: {
-			imageSrc: './warriorImages/kenji/Death.png',
-			framesMax: 7,
-		},
-	},
-	attackBox: {
-		offset: {
-			x: -190,
-			y: 50,
-		},
-		height: 50,
-	},
-});
+//Create player title like one player or enemy later to get attack side
+export const player = SamuraiMack;
+
+export const enemy = Kenji;
 
 const keys = {
 	a: {
@@ -213,8 +72,12 @@ function animate() {
 	context.fillRect(0, 0, canvas.width, canvas.height); // clears the canvas
 	background.update();
 	shop.update();
-	context.fillStyle = 'rgba(255, 255, 255, 0.07)';
-	context.fillRect(0, 0, canvas.width, canvas.height);
+	flyingObelisk.update();
+
+	// Control canvas lighter tone
+	// context.fillStyle = 'rgba(255, 255, 255, 0.07)';
+	// context.fillRect(0, 0, canvas.width, canvas.height);
+
 	player.update();
 	enemy.update();
 
@@ -222,8 +85,8 @@ function animate() {
 	enemy.velocity.x = 0; // Default enemy velocity is 0
 
 	// Change the different attack ranges // TODO Work on other direction that might need the offset to change for it to work
-	let playerAttackWidth = player.attackStyle === 'attackOne' ? 157 : 145;
-	let enemyAttackWidth = enemy.attackStyle === 'attackOne' ? 150 : 170;
+	// let playerAttackWidth = player.attackStyle === 'attackOne' ? 157 : 145;
+	// let enemyAttackWidth = enemy.attackStyle === 'attackOne' ? 150 : 170;
 
 	// Player movement
 	if (keys.a.pressed && player.lastKey === 'a') {
@@ -271,7 +134,8 @@ function animate() {
 
 	// Detect for collision & enemy gets hit
 	if (
-		rectangularCollision({ rectangleOne: player, rectangleTwo: enemy, DamageWidth: playerAttackWidth }) &&
+		// rectangularCollision({ rectangleOne: player, rectangleTwo: enemy, DamageWidth: playerAttackWidth }) &&
+		rectangularCollision({ rectangleOne: player, rectangleTwo: enemy }) &&
 		player.isAttacking &&
 		player.framesCurrent === 1
 	) {
@@ -289,11 +153,7 @@ function animate() {
 		player.isAttacking = false;
 	}
 
-	if (
-		rectangularCollision({ rectangleOne: enemy, rectangleTwo: player, DamageWidth: enemyAttackWidth }) &&
-		enemy.isAttacking &&
-		enemy.framesCurrent === 1
-	) {
+	if (rectangularCollision({ rectangleOne: enemy, rectangleTwo: player }) && enemy.isAttacking && enemy.framesCurrent === 1) {
 		enemy.isAttacking = false;
 
 		player.takeHit();

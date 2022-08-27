@@ -1,4 +1,4 @@
-import { context, canvas } from '../index.js';
+import { context } from '../index.js';
 
 export class Sprite {
 	constructor({ position, imageSrc, scale = 1, framesMax = 1, offset = { x: 0, y: 0 } }) {

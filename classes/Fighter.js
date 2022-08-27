@@ -11,7 +11,15 @@ export class Fighter extends Sprite {
 		framesMax = 1,
 		offset = { x: 0, y: 0 },
 		sprites,
-		attackBox = { offset: {}, height: undefined },
+		attackBox = {
+			attackRight1: { offset: {}, width: undefined, height: undefined },
+			attackRight2: { offset: {}, width: undefined, height: undefined },
+			attackLeft1: { offset: {}, width: undefined, height: undefined },
+			attackLeft2: { offset: {}, width: undefined, height: undefined },
+			offset: {},
+			width: undefined,
+			height: undefined,
+		},
 	}) {
 		super({
 			position,
@@ -32,6 +40,7 @@ export class Fighter extends Sprite {
 			},
 			offset: attackBox.offset,
 			height: attackBox.height,
+			width: attackBox.width,
 		};
 		this.color = color;
 		this.isAttacking;
@@ -61,7 +70,7 @@ export class Fighter extends Sprite {
 		this.attackBox.position.y = this.position.y + this.attackBox.offset.y;
 
 		// For testing later
-		//context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
+		context.fillRect(this.attackBox.position.x, this.attackBox.position.y, this.attackBox.width, this.attackBox.height);
 
 		this.position.x += this.velocity.x;
 		this.position.y += this.velocity.y;
