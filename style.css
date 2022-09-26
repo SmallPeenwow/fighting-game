@@ -100,3 +100,25 @@ body {
 	left: 0;
 	display: none;
 }
+
+.player-tutorial {
+	/* display: flex; */
+	display: none;
+	flex-direction: column;
+	position: absolute;
+	top: 20%;
+	left: 20%;
+}
+
+.player-tutorial h2 {
+	/* display: flex; */
+	display: none;
+	align-items: center;
+	justify-content: center;
+	width: 40px;
+	height: 40px;
+	background-color: #d3d3d3c7;
+	border: 5px inset #808080b3;
+	color: white;
+	text-shadow: 1px 0px 1px black;
+}

@@ -6,6 +6,7 @@ import { SamuraiMack } from './HeroFighters/SamuraiMack.js';
 import { Kenji } from './HeroFighters/Kenji.js';
 
 export const canvas = document.querySelector('canvas');
+const playerTutorial = document.querySelector('.player-tutorial');
 
 export const context = canvas.getContext('2d');
 
